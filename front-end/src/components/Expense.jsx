@@ -1,76 +1,108 @@
 // Expense.jsx
 import React, { useState } from "react";
+import api from "../services/api"; // Import your API service
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Expense = ({ expenseUpdate, setExpenseUpdate }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    amount: "",
-    category: "",
-    date: "",
-  });
+  const [category, setCategory] = useState("");
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    setExpenseUpdate(expenseUpdate + 1); // Example of updating state
-    setFormData({ name: "", amount: "", category: "", date: "" });
+    const userId = localStorage.getItem("userId");
+
+    try {
+      await api.post("/expenses", {
+        userId,
+        category,
+        amount,
+        date: new Date(date).toISOString(),
+      });
+      // Clear form fields after submission
+      setCategory("");
+      setAmount("");
+      setDate("");
+      setExpenseUpdate(expenseUpdate + 1); // Notify parent component of update
+    } catch (error) {
+      console.error("Error adding expense:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="name">Expense Name</label>
-        <input
-          type="text"
-          className="form-control"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h3 className="card-title text-center mb-4">Add Expense</h3>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group row mb-3">
+                  <label htmlFor="category" className="col-sm-4 col-form-label">
+                    Category:
+                  </label>
+                  <div className="col-sm-8">
+                    <select
+                      id="category"
+                      className="form-control"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Category</option>
+                      <option value="entertainment">Entertainment</option>
+                      <option value="investment">Investment</option>
+                      <option value="shopping">Shopping</option>
+                      <option value="medical">Medical</option>
+                      <option value="education">Education</option>
+                      <option value="loan">Loan</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="form-group row mb-3">
+                  <label htmlFor="amount" className="col-sm-4 col-form-label">
+                    Amount:
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="number"
+                      id="amount"
+                      className="form-control"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-group row mb-3">
+                  <label htmlFor="date" className="col-sm-4 col-form-label">
+                    Date:
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="date"
+                      id="date"
+                      className="form-control"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-sm-12 text-center">
+                    <button type="submit" className="btn btn-primary">
+                      Add Expense
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="amount">Amount</label>
-        <input
-          type="number"
-          className="form-control"
-          id="amount"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="category">Category</label>
-        <input
-          type="text"
-          className="form-control"
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="date">Date</label>
-        <input
-          type="date"
-          className="form-control"
-          id="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Add Expense
-      </button>
-    </form>
+    </div>
   );
 };
 
