@@ -64,10 +64,20 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
             </div>
             {isLoggedIn && (
               <div>
-                <ul className="nav flex-column">
+                <ul className="nav flex-row">
                   <li className="nav-item mb-2">
                     <Link className="nav-link" to="/dashboard">
                       Dashboard
+                    </Link>
+                  </li>
+                  <li className="nav-item mb-2">
+                    <Link className="nav-link" to="/expense">
+                      Expenses
+                    </Link>
+                  </li>
+                  <li className="nav-item mb-2">
+                    <Link className="nav-link" to="/transactions">
+                      Transactions
                     </Link>
                   </li>
                 </ul>

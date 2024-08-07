@@ -6,7 +6,10 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Error from "./pages/Error";
 import { Navigate } from "react-router-dom";
+import Expense from "./components/Expense";
+import Transactions from "./components/Transactions";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +41,17 @@ function App() {
                     isLoggedIn ? <Dashboard /> : <Navigate to="/login" />
                   }
                 />
+                <Route
+                  path="/expense"
+                  element={isLoggedIn ? <Expense /> : <Navigate to="/login" />}
+                />
+                <Route
+                  path="/transactions"
+                  element={
+                    isLoggedIn ? <Transactions /> : <Navigate to="/login" />
+                  }
+                />
+                <Route path="*" element={<Error />} />
               </Routes>
             </main>
           </div>

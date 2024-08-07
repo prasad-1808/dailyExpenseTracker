@@ -1,18 +1,16 @@
 import React from "react";
 
-const Home = () => {
+const Error = () => {
   return (
     <div className="container-fluid d-flex justify-content-center">
       <div className="card p-4 shadow-sm">
-        <h1 className="display-4 mb-4 text-center">
-          Welcome to Expense Tracker
-        </h1>
+        <h1 className="display-4 mb-4 text-center">Sorry! Page Not Found</h1>
         <p className="lead text-center">
-          Track your daily expenses easily and efficiently.
+          Visit our <a href="/">home page</a>
         </p>
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Error;
