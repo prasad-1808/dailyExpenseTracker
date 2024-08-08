@@ -9,6 +9,9 @@ const Dashboard = () => {
   const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toISOString().slice(0, 7)
+  ); // Format: YYYY-MM
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,8 +21,10 @@ const Dashboard = () => {
         const userId = localStorage.getItem("userId");
         if (!userId) throw new Error("User ID not found in local storage");
 
-        // Fetch expenses
-        const expenseResponse = await api.get(`/expenses/${userId}`);
+        // Fetch expenses for the selected month
+        const expenseResponse = await api.get(
+          `/expenses/${userId}?month=${selectedMonth}`
+        );
         if (expenseResponse.status === 404)
           throw new Error("Expenses not found");
 
@@ -31,11 +36,11 @@ const Dashboard = () => {
         setTotalExpense(totalExpense);
         setNumTransactions(expenses.length);
 
-        // Fetch income
-        const userData = await api.get(`/users/${userId}`); // Ensure this matches
-        const monthlyIncome = userData.data.monthlyRevenue;
+        // Fetch monthly income
+        const userData = await api.get(`/users/${userId}`);
         if (userData.status === 404) throw new Error("Income data not found");
 
+        const monthlyIncome = userData.data.monthlyRevenue; // Adjust this if needed
         setTotalIncome(monthlyIncome);
 
         // Calculate balance
@@ -49,7 +54,11 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [selectedMonth]); // Re-run fetch when selectedMonth changes
+
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
+  };
 
   const InfoCard = ({ title, value }) => (
     <div className="col-md-3 mb-4">
@@ -66,7 +75,17 @@ const Dashboard = () => {
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">Dashboard</h2>
-      <div className="row">
+      <div className="form-group">
+        <label htmlFor="monthSelect">Select Month:</label>
+        <input
+          type="month"
+          id="monthSelect"
+          className="form-control"
+          value={selectedMonth}
+          onChange={handleMonthChange}
+        />
+      </div>
+      <div className="row mt-4">
         <InfoCard title="Total Income" value={`$${totalIncome.toFixed(2)}`} />
         <InfoCard title="Total Expense" value={`$${totalExpense.toFixed(2)}`} />
         <InfoCard title="Transactions" value={numTransactions} />

@@ -73,25 +73,6 @@ const getTotalExpenses = async (req, res) => {
   }
 };
 
-const createExpense = async (req, res) => {
-  const { userId, category, amount, date } = req.body;
-
-  try {
-    const expense = await prisma.expense.create({
-      data: {
-        userId: userId,
-        category: category,
-        amount: parseFloat(amount),
-        date: new Date(date).toISOString(),
-      },
-    });
-    res.status(201).json(expense);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
 const getSummary = async (req, res) => {
   const { userId } = req.params;
   const { period } = req.query; // 'week' or 'month'

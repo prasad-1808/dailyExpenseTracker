@@ -30,18 +30,29 @@ const login = async (req, res) => {
   const { userid, password } = req.body;
 
   try {
+    // Check if the user exists
     const user = await prisma.user.findUnique({
       where: { userid },
     });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign({ userid: user.userid }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
-      res.json({ token });
-    } else {
-      res.status(401).json({ error: "Invalid credentials" });
+    if (!user) {
+      // User not found
+      return res.status(401).json({ error: "Invalid username or password" });
     }
+
+    // Check if the password matches
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      // Password does not match
+      return res.status(401).json({ error: "Invalid username or password" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ userid: user.userid }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
