@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 import api from "../services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -12,6 +13,7 @@ const Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toISOString().slice(0, 7)
   ); // Format: YYYY-MM
+  const [barData, setBarData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +47,30 @@ const Dashboard = () => {
 
         // Calculate balance
         setBalance(monthlyIncome - totalExpense);
+
+        // Prepare bar chart data
+        const expenseByDate = expenses.reduce((acc, expense) => {
+          const date = new Date(expense.date).toLocaleDateString();
+          if (!acc[date]) acc[date] = 0;
+          acc[date] += expense.amount;
+          return acc;
+        }, {});
+
+        const labels = Object.keys(expenseByDate);
+        const data = Object.values(expenseByDate);
+
+        setBarData({
+          labels,
+          datasets: [
+            {
+              label: "Expenses",
+              data,
+              backgroundColor: "rgba(75, 192, 192, 0.6)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        });
       } catch (err) {
         console.error("Error fetching data:", err.message);
         setError(err.message);
@@ -90,6 +116,10 @@ const Dashboard = () => {
         <InfoCard title="Total Expense" value={`$${totalExpense.toFixed(2)}`} />
         <InfoCard title="Transactions" value={numTransactions} />
         <InfoCard title="Balance" value={`$${balance.toFixed(2)}`} />
+      </div>
+      <div className="mt-5">
+        <h4 className="text-center mb-4">Expenses by Date</h4>
+        <Bar data={barData} />
       </div>
     </div>
   );
