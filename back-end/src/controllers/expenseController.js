@@ -54,6 +54,32 @@ const getExpenses = async (req, res) => {
   }
 };
 
+const deleteExpense = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await prisma.expense.delete({
+      where: { id: parseInt(id, 10) },
+    });
+    res.status(204).end();
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete expense" });
+  }
+};
+
+const updateExpense = async (req, res) => {
+  const { id } = req.params;
+  const { category, amount, date } = req.body;
+  try {
+    const updatedExpense = await prisma.expense.update({
+      where: { id: parseInt(id, 10) },
+      data: { category, amount, date },
+    });
+    res.json(updatedExpense);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update expense" });
+  }
+};
+
 const getTotalExpenses = async (req, res) => {
   const { userId } = req.params;
   try {
@@ -108,4 +134,6 @@ module.exports = {
   getSummary,
   getTotalExpenses,
   getMonthlyIncome,
+  deleteExpense,
+  updateExpense,
 };

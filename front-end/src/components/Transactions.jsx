@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import api from "../services/api";
 import "chart.js/auto";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import EditExpenseModal from "./EditExpenseModal"; // Import the modal component
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteSweep } from "react-icons/md";
 
 const Transactions = ({ expenseUpdate, setExpenseUpdate }) => {
   const [expenses, setExpenses] = useState([]);
@@ -15,6 +20,8 @@ const Transactions = ({ expenseUpdate, setExpenseUpdate }) => {
     loan: 0,
     other: 0,
   });
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState(null);
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -45,12 +52,7 @@ const Transactions = ({ expenseUpdate, setExpenseUpdate }) => {
     };
 
     fetchExpenses();
-  }, [expenseUpdate]);
-
-  // Sort expenses by date (newest first)
-  const sortedExpenses = [...expenses].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
+  }, [expenseUpdate, expenses]);
 
   const data = {
     labels: [
@@ -88,6 +90,25 @@ const Transactions = ({ expenseUpdate, setExpenseUpdate }) => {
         },
       },
     },
+    animation: {
+      duration: 30, // Total animation duration in milliseconds
+      easing: "linear", // Use linear easing to make the animation uniform
+    },
+  };
+
+  const handleEdit = (expense) => {
+    setSelectedExpense(expense);
+    setShowEditModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/expenses/${id}`);
+      toast.success("Expense deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+      toast.error("Failed to delete expense.");
+    }
   };
 
   return (
@@ -106,20 +127,35 @@ const Transactions = ({ expenseUpdate, setExpenseUpdate }) => {
                       <th>Category</th>
                       <th>Amount</th>
                       <th>Date</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {sortedExpenses.length > 0 ? (
-                      sortedExpenses.map((expense) => (
+                    {expenses.length > 0 ? (
+                      expenses.map((expense) => (
                         <tr key={expense.id}>
                           <td>{expense.category}</td>
                           <td>${expense.amount}</td>
                           <td>{new Date(expense.date).toLocaleDateString()}</td>
+                          <td>
+                            <button
+                              className="btn btn-warning btn-sm me-2"
+                              onClick={() => handleEdit(expense)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              className="btn btn-danger btn-sm"
+                              onClick={() => handleDelete(expense.id)}
+                            >
+                              <MdDeleteSweep />
+                            </button>
+                          </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="3" className="text-center">
+                        <td colSpan="4" className="text-center">
                           No expenses recorded.
                         </td>
                       </tr>
@@ -141,6 +177,14 @@ const Transactions = ({ expenseUpdate, setExpenseUpdate }) => {
           </div>
         </div>
       </div>
+      {selectedExpense && (
+        <EditExpenseModal
+          show={showEditModal}
+          handleClose={() => setShowEditModal(false)}
+          expense={selectedExpense}
+          setExpenseUpdate={setExpenseUpdate}
+        />
+      )}
     </div>
   );
 };

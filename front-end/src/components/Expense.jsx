@@ -23,7 +23,6 @@ const Expense = ({ expenseUpdate, setExpenseUpdate }) => {
       setCategory("");
       setAmount("");
       setDate("");
-      setExpenseUpdate(expenseUpdate + 1); // Notify parent component of update
     } catch (error) {
       console.error("Error adding expense:", error);
     }
