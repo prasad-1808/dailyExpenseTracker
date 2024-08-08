@@ -93,26 +93,39 @@ const ExpenseList = ({ expenseUpdate, setExpenseUpdate }) => {
             <div className="card-header">
               <h4 className="mb-0">Expense List</h4>
             </div>
-            <ul className="list-group list-group-flush">
-              {expenses.length > 0 ? (
-                expenses.map((expense) => (
-                  <li
-                    key={expense.id}
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    <span>{expense.category}</span>
-                    <span>
-                      ${expense.amount} on{" "}
-                      {new Date(expense.date).toLocaleDateString()}
-                    </span>
-                  </li>
-                ))
-              ) : (
-                <li className="list-group-item">No expenses recorded.</li>
-              )}
-            </ul>
+            <div className="card">
+              <div className="card-body">
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {expenses.length > 0 ? (
+                      expenses.map((expense) => (
+                        <tr key={expense.id}>
+                          <td>{expense.category}</td>
+                          <td>${expense.amount}</td>
+                          <td>{new Date(expense.date).toLocaleDateString()}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" className="text-center">
+                          No expenses recorded.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
+
         <div className="col-md-6">
           <div className="card">
             <div className="card-body">
