@@ -22,14 +22,12 @@ const register = async (req, res) => {
 
     res.status(201).json(user);
   } catch (error) {
-    // console.log(error);
     res.status(400).json({ error: error.message });
   }
 };
 
 const login = async (req, res) => {
   const { userid, password } = req.body;
-  // console.log(userid, password);
 
   try {
     const user = await prisma.user.findUnique({
@@ -49,4 +47,21 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getUserData = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { userid: userId },
+    });
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { register, login, getUserData };

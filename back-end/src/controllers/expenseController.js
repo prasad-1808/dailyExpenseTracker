@@ -20,6 +20,26 @@ const addExpense = async (req, res) => {
   }
 };
 
+const getMonthlyIncome = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(userId) },
+      // select: { monthlyIncome: true },
+    });
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ totalIncome: user.monthlyIncome });
+  } catch (error) {
+    console.error("Error fetching monthly income:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const getExpenses = async (req, res) => {
   const { userId } = req.params;
 
@@ -101,4 +121,10 @@ const getSummary = async (req, res) => {
   }
 };
 
-module.exports = { addExpense, getExpenses, getSummary, getTotalExpenses };
+module.exports = {
+  addExpense,
+  getExpenses,
+  getSummary,
+  getTotalExpenses,
+  getMonthlyIncome,
+};

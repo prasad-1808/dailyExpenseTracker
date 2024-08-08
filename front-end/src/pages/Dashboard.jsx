@@ -1,93 +1,76 @@
-// Dashboard.jsx
 import React, { useEffect, useState } from "react";
-import BarChart from "../components/BarChart";
-import PieChart from "../components/PieChart";
 import api from "../services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Dashboard = () => {
-  const [expenseUpdate, setExpenseUpdate] = useState(0);
-  const [weeklyExpenses, setWeeklyExpenses] = useState([]);
-  const [monthlyExpenses, setMonthlyExpenses] = useState([]);
-  const [yearlyExpenses, setYearlyExpenses] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalExpense, setTotalExpense] = useState(0);
+  const [numTransactions, setNumTransactions] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchExpenses = async () => {
-      const userId = localStorage.getItem("userId");
-      const response = await api.get(`/expenses/${userId}`);
-      const expenses = response.data;
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const userId = localStorage.getItem("userId");
+        if (!userId) throw new Error("User ID not found in local storage");
 
-      // Aggregate data by week, month, year
-      const now = new Date();
-      const startOfYear = new Date(now.getFullYear(), 0, 1);
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+        // Fetch expenses
+        const expenseResponse = await api.get(`/expenses/${userId}`);
+        if (expenseResponse.status === 404)
+          throw new Error("Expenses not found");
 
-      const weekly = [];
-      const monthly = [];
-      const yearly = [];
+        const expenses = expenseResponse.data;
+        const totalExpense = expenses.reduce(
+          (acc, expense) => acc + expense.amount,
+          0
+        );
+        setTotalExpense(totalExpense);
+        setNumTransactions(expenses.length);
 
-      expenses.forEach((expense) => {
-        const expenseDate = new Date(expense.date);
-        if (expenseDate >= startOfWeek) {
-          weekly.push(expense);
-        }
-        if (expenseDate >= startOfMonth) {
-          monthly.push(expense);
-        }
-        if (expenseDate >= startOfYear) {
-          yearly.push(expense);
-        }
-      });
+        // Fetch income
+        const userData = await api.get(`/users/${userId}`); // Ensure this matches
+        const monthlyIncome = userData.data.monthlyRevenue;
+        if (userData.status === 404) throw new Error("Income data not found");
 
-      setWeeklyExpenses(weekly);
-      setMonthlyExpenses(monthly);
-      setYearlyExpenses(yearly);
+        setTotalIncome(monthlyIncome);
+
+        // Calculate balance
+        setBalance(monthlyIncome - totalExpense);
+      } catch (err) {
+        console.error("Error fetching data:", err.message);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchExpenses();
-  }, [expenseUpdate]);
+    fetchData();
+  }, []);
+
+  const InfoCard = ({ title, value }) => (
+    <div className="col-md-3 mb-4">
+      <div className="card info-card">
+        <h3 className="card-title mb-3">{title}</h3>
+        <div className="card-body">
+          <h4 className="card-value">{loading ? "Loading..." : value}</h4>
+        </div>
+        {error && <p className="text-danger">{error}</p>}
+      </div>
+    </div>
+  );
 
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">Dashboard</h2>
       <div className="row">
-        <div className="col-md-6 mb-4">
-          <div className="card chart-card">
-            <h3 className="card-title mb-3">Weekly Expenses</h3>
-            <div className="chart-container">
-              <BarChart data={weeklyExpenses} />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 mb-4">
-          <div className="card chart-card">
-            <h3 className="card-title mb-3">Monthly Expenses</h3>
-            <div className="chart-container">
-              <BarChart data={monthlyExpenses} />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6 mb-4">
-          <div className="card chart-card">
-            <h3 className="card-title mb-3">Yearly Expenses</h3>
-            <div className="chart-container">
-              <BarChart data={yearlyExpenses} />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 mb-4">
-          <div className="card chart-card">
-            <h3 className="card-title mb-3">
-              Expense Distribution by Category
-            </h3>
-            <div className="chart-container">
-              <PieChart />
-            </div>
-          </div>
-        </div>
+        <InfoCard title="Total Income" value={`$${totalIncome.toFixed(2)}`} />
+        <InfoCard title="Total Expense" value={`$${totalExpense.toFixed(2)}`} />
+        <InfoCard title="Transactions" value={numTransactions} />
+        <InfoCard title="Balance" value={`$${balance.toFixed(2)}`} />
       </div>
     </div>
   );
