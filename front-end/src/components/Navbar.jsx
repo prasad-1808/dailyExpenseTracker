@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
@@ -78,6 +79,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                   <li className="nav-item mb-2">
                     <Link className="nav-link" to="/transactions">
                       Transactions
+                    </Link>
+                  </li>
+                  <li className="nav-item mb-2">
+                    <Link className="nav-link" to="/profile">
+                      <FaRegCircleUser className="profile-icon" />
                     </Link>
                   </li>
                 </ul>

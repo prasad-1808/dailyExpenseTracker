@@ -61,3 +61,22 @@
   font-style: italic;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
+
+.profile-pic-icon {
+  width: 7rem;
+  height: 7rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.profile {
+  max-width: 30rem;
+}
+
+td {
+  width: 7rem;
+}

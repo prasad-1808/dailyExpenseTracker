@@ -2,11 +2,12 @@ import "./App.css";
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 import Error from "./pages/Error";
+import Navbar from "./components/Navbar";
 import { Navigate } from "react-router-dom";
 import Expense from "./components/Expense";
 import Transactions from "./components/Transactions";
@@ -50,6 +51,10 @@ function App() {
                   element={
                     isLoggedIn ? <Transactions /> : <Navigate to="/login" />
                   }
+                />
+                <Route
+                  path="/profile"
+                  element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
                 />
                 <Route path="*" element={<Error />} />
               </Routes>
