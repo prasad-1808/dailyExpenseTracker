@@ -100,7 +100,7 @@ const Dashboard = () => {
 
   return (
     <div className="container my-5">
-      <h2 className="text-center mb-4">Dashboard</h2>
+      <h2 className="text-center">Dashboard</h2>
       <div className="form-group">
         <label htmlFor="monthSelect">Select Month:</label>
         <input

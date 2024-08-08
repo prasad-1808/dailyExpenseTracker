@@ -2,8 +2,11 @@ import React from "react";
 
 const Home = () => {
   return (
-    <div className="container-fluid d-flex justify-content-center">
-      <div className="card p-4 shadow-sm">
+    <div className="container d-flex justify-content-center align-items-center min-vh-90">
+      <div
+        className="card p-4 shadow-sm"
+        style={{ maxWidth: "600px", width: "100%" }}
+      >
         <h1 className="display-4 mb-4 text-center">
           Welcome to Expense Tracker
         </h1>

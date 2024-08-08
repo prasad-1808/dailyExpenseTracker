@@ -65,7 +65,7 @@ const Profile = () => {
   if (error) return <p className="text-danger">{error}</p>;
 
   return (
-    <div className="container-fluid my-5 profile">
+    <div className="container-fluid my-5 profile p-4">
       <h2 className="text-center mb-4">User Profile</h2>
       <div className="card">
         <div className="card-body">
@@ -121,7 +121,9 @@ const Profile = () => {
             </div>
           ) : (
             <div>
-              <FaRegCircleUser className="profile-pic-icon" />
+              <center>
+                <FaRegCircleUser className="profile-pic-icon" />
+              </center>
               <div className="card-body rounded">
                 <table className="table table-bordered rounded">
                   <tbody>
@@ -148,12 +150,14 @@ const Profile = () => {
                   </tbody>
                 </table>
               </div>
-              <button
-                className="btn btn-primary mt-3"
-                onClick={handleEditClick}
-              >
-                Edit
-              </button>
+              <center>
+                <button
+                  className="btn btn-primary mt-3"
+                  onClick={handleEditClick}
+                >
+                  Edit
+                </button>
+              </center>
             </div>
           )}
         </div>
