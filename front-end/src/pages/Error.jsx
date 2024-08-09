@@ -1,16 +1,19 @@
 import React from "react";
 
-const Error = () => {
+const Home = () => {
   return (
-    <div className="container-fluid d-flex justify-content-center">
-      <div className="card p-4 shadow-sm">
+    <div className="container d-flex justify-content-center align-items-center min-vh-90">
+      <div
+        className="card p-4 shadow-sm shadow"
+        style={{ maxWidth: "600px", width: "100%" }}
+      >
         <h1 className="display-4 mb-4 text-center">Sorry! Page Not Found</h1>
         <p className="lead text-center">
-          Visit our <a href="/">home page</a>
+          Visit our <a href="/">Home Page.</a>
         </p>
       </div>
     </div>
   );
 };
 
-export default Error;
+export default Home;
