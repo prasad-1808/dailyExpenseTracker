@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,6 +8,12 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoggedIn]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +36,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
   };
 
   return (
-    <div className="container h-100">
+    <div className="container h-100" style={{ marginTop: "7rem" }}>
       <div className="row justify-content-center align-items-center h-100">
         <div className="col-md-6 col-lg-4 pt-5 m-4">
           <div className="card shadow-lg">

@@ -115,9 +115,11 @@ const Profile = () => {
                   onChange={handleChange}
                 />
               </div>
-              <button className="btn btn-primary mt-3" onClick={handleSave}>
-                Save
-              </button>
+              <center>
+                <button className="btn btn-primary mt-3" onClick={handleSave}>
+                  Save
+                </button>
+              </center>
             </div>
           ) : (
             <div>

@@ -19,7 +19,10 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top text-white">
+    <nav
+      className="navbar navbar-expand-lg navbar-light bg-light fixed-top text-white"
+      style={{ paddingTop: "0px", paddingBottom: "0.5px" }}
+    >
       <div className="container-fluid unorderedList ">
         <Link className="navbar-brand fs-2 text-white" to="/">
           Expense Tracker <GiExpense />

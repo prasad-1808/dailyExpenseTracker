@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -13,9 +13,20 @@ import Expense from "./components/Expense";
 import Transactions from "./components/Transactions";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import api from "./services/api";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // const checkLogged = async () => {
+  //   const res = await api.post("/check", {
+  //       token: localStorage.getItem('token');
+  //     });
+  // }
+
+  useEffect(() => {
+    setIsLoggedIn(!!localStorage.getItem("token"));
+  }, []);
 
   return (
     <Router>

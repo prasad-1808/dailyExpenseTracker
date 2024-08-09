@@ -26,9 +26,8 @@ body {
 }
 
 .unorderedList {
-  background-color: red;
   padding-bottom: 1rem;
-  padding-top: 1rem;
+  /* padding-top: 1rem; */
   background: linear-gradient(
     45deg,
     rgba(54, 13, 164, 1),

@@ -37,7 +37,7 @@ const Register = () => {
   };
 
   return (
-    <div className="container h-100">
+    <div className="container h-100" style={{ marginTop: "7rem" }}>
       <div className="row justify-content-center align-items-center h-100">
         <div className="col-md-6 col-lg-4 pt-5 m-4">
           <div className="card shadow-lg">
