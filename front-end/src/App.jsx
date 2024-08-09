@@ -11,6 +11,8 @@ import Navbar from "./components/Navbar";
 import { Navigate } from "react-router-dom";
 import Expense from "./components/Expense";
 import Transactions from "./components/Transactions";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

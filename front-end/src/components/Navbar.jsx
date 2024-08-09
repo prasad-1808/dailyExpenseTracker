@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { HiAcademicCap, HiOutlineUserCircle } from "react-icons/hi2";
+import { FaRegUserCircle } from "react-icons/fa";
 import { GiExpense } from "react-icons/gi";
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
@@ -57,49 +57,29 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                     Transactions
                   </Link>
                 </li>
-                <li className="nav-item mx-3">
-                  <Link className="nav-link" to="/profile">
-                    {/* <HiOutlineUserCircle className="profile-icon" /> */}
-                    Profile
-                  </Link>
-                </li>
-                <li className="nav-item mx-3">
-                  <button
-                    className="nav-link btn btn-link"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
+                <li className="nav-item dropdown mx-3">
+                  <FaRegUserCircle
+                    className="dropdown-toggle nav-item mx-4 fs-2 mt-2"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
+                  />
+                  <ul className="dropdown-menu dropdown-menu-end my-3">
                     <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
+                      <center>
+                        <Link className="dropdown-item" to="/profile">
+                          Profile
+                        </Link>
+                      </center>
                     </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
+                    <li className="nav-item mx-3">
+                      <center>
+                        <button
+                          className="dropdown-item"
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </button>
+                      </center>
                     </li>
                   </ul>
                 </li>
