@@ -1,28 +1,87 @@
-// Expense.jsx
-import React, { useState } from "react";
-import api from "../services/api"; // Import your API service
+import React, { useEffect, useState } from "react";
+import api from "../services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Expense = ({ expenseUpdate, setExpenseUpdate }) => {
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
   const [date, setDate] = useState("");
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const userId = localStorage.getItem("userId");
+      try {
+        const userResponse = await api.get(`/users/${userId}`);
+
+        // Fetch expenses for the selected month
+        const expenseResponse = await api.get(`/expenses/${userId}`);
+        if (expenseResponse.status === 404)
+          throw new Error("Expenses not found");
+
+        // Accumulate the total expenses
+        const totalExpenses = expenseResponse.data.reduce(
+          (acc, expense) => acc + expense.amount,
+          0
+        );
+
+        // Calculate the remaining balance
+        const balance = userResponse.data.monthlyRevenue - totalExpenses;
+        setCurrentBalance(balance);
+
+        console.log(balance, userResponse.data.monthlyRevenue, totalExpenses);
+      } catch (error) {
+        console.error("Error fetching balance:", error);
+      }
+    };
+
+    fetchBalance();
+  }, [expenseUpdate]); // Add expenseUpdate as a dependency to refetch balance after adding an expense
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userId = localStorage.getItem("userId");
 
     try {
+      // Fetch the most recent balance
+      const userResponse = await api.get(`/users/${userId}`);
+
+      // Fetch expenses for the selected month
+      const expenseResponse = await api.get(`/expenses/${userId}`);
+      if (expenseResponse.status === 404) throw new Error("Expenses not found");
+
+      // Accumulate the total expenses
+      const totalExpenses = expenseResponse.data.reduce(
+        (acc, expense) => acc + expense.amount,
+        0
+      );
+
+      // Calculate the remaining balance
+      const balance = userResponse.data.monthlyRevenue - totalExpenses;
+
+      // Check if the expense exceeds the available balance
+      if (parseFloat(amount) > balance) {
+        alert(
+          "Expense exceeds available balance. Please enter a valid amount."
+        );
+        return;
+      }
+
+      // Proceed with adding the expense if the balance is sufficient
       await api.post("/expenses", {
         userId,
         category,
-        amount,
+        amount: parseFloat(amount),
         date: new Date(date).toISOString(),
       });
+
       // Clear form fields after submission
       setCategory("");
       setAmount("");
       setDate("");
+
+      // Update expense state to trigger balance re-fetch
     } catch (error) {
       console.error("Error adding expense:", error);
     }
