@@ -6,6 +6,16 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevent horizontal scrolling */
+  background: linear-gradient(
+    45deg,
+    rgba(54, 13, 164, 1),
+    rgba(234, 91, 149, 1)
+  );
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: aliceblue;
 }
 
 .App {
@@ -13,6 +23,44 @@ body {
   flex-direction: column;
   min-height: 100vh;
   /* background-color: #000; */
+}
+
+.unorderedList {
+  background-color: red;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  background: linear-gradient(
+    45deg,
+    rgba(54, 13, 164, 1),
+    rgba(234, 91, 149, 1)
+  );
+}
+
+.nav-link {
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for transform and color */
+}
+
+.nav-link:hover {
+  transform: scale(1.1); /* Enlarge the element by 10% */
+  color: #007bff; /* Optional: Change color on hover */
+}
+
+.nav-icon {
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for transform and color */
+  font-size: 1.5rem; /* Set initial size of the icon */
+}
+
+.nav-icon:hover {
+  transform: scale(1.2); /* Enlarge the icon by 20% on hover */
+  color: #eaebec; /* Optional: Change color on hover */
+}
+
+.dropdown-class {
+  margin-top: 3rem;
+}
+
+.dashboard-container {
+  padding-top: 3rem;
 }
 
 /* .navbar {

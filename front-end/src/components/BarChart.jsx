@@ -35,10 +35,32 @@ const BarChart = ({ data }) => {
     plugins: {
       legend: {
         display: false,
+        labels: {
+          color: "#ffffff", // Set legend labels to white (if displayed)
+        },
       },
       title: {
         display: true,
         text: "Expenses by Date",
+        color: "#ffffff", // Set chart title to white
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "#ffffff", // Set x-axis labels to white
+        },
+        grid: {
+          color: "rgba(255, 255, 255, 0.2)", // Set x-axis gridlines to white (with some transparency)
+        },
+      },
+      y: {
+        ticks: {
+          color: "#ffffff", // Set y-axis labels to white
+        },
+        grid: {
+          color: "rgba(255, 255, 255, 0.2)", // Set y-axis gridlines to white (with some transparency)
+        },
       },
     },
   };

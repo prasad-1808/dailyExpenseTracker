@@ -142,12 +142,14 @@ const Register = () => {
                     required
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-block mt-3"
-                >
-                  Register
-                </button>
+                <center>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block mt-3"
+                  >
+                    Register
+                  </button>
+                </center>
               </form>
             </div>
           </div>

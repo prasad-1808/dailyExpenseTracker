@@ -99,7 +99,10 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="container my-5 pt-4">
+    <div
+      className="container pt-4 text-white dashboard-container"
+      style={{ marginTop: "7rem" }}
+    >
       <h2 className="text-center">Dashboard</h2>
       <div className="form-group">
         <label htmlFor="monthSelect">Select Month:</label>
@@ -111,13 +114,18 @@ const Dashboard = () => {
           onChange={handleMonthChange}
         />
       </div>
-      <div className="row mt-4">
-        <InfoCard title="Total Income" value={`$${totalIncome.toFixed(2)}`} />
-        <InfoCard title="Total Expense" value={`$${totalExpense.toFixed(2)}`} />
-        <InfoCard title="Transactions" value={numTransactions} />
-        <InfoCard title="Balance" value={`$${balance.toFixed(2)}`} />
-      </div>
-      <div className="mt-5">
+      <center>
+        <div className="row mt-4">
+          <InfoCard title="Total Income" value={`$${totalIncome.toFixed(2)}`} />
+          <InfoCard
+            title="Total Expense"
+            value={`$${totalExpense.toFixed(2)}`}
+          />
+          <InfoCard title="Transactions" value={numTransactions} />
+          <InfoCard title="Balance" value={`$${balance.toFixed(2)}`} />
+        </div>
+      </center>
+      <div className="mt-5 card">
         <h4 className="text-center mb-4">Expenses by Date</h4>
         <Bar data={barData} />
       </div>

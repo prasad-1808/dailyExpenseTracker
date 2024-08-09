@@ -65,8 +65,8 @@ const Profile = () => {
   if (error) return <p className="text-danger">{error}</p>;
 
   return (
-    <div className="container-fluid my-5 profile p-4">
-      <h2 className="text-center mb-4">User Profile</h2>
+    <div className="container-fluid profile p-4" style={{ marginTop: "7rem" }}>
+      <h2 className="text-center mb-4 text-white">User Profile</h2>
       <div className="card">
         <div className="card-body">
           {editing ? (

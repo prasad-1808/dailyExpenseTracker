@@ -65,12 +65,14 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                     required
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-block mt-3"
-                >
-                  Login
-                </button>
+                <center>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block mt-3"
+                  >
+                    Login
+                  </button>
+                </center>
               </form>
             </div>
           </div>

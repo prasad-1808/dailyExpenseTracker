@@ -112,7 +112,7 @@ const Transactions = ({ expenseUpdate, setExpenseUpdate }) => {
   };
 
   return (
-    <div className="container mt-4 p-5">
+    <div className="container p-5" style={{ marginTop: "7rem" }}>
       <div className="row">
         <div className="col-md-6">
           <div className="card">
