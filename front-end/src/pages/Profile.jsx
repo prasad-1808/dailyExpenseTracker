@@ -77,6 +77,7 @@ const Profile = () => {
                   type="text"
                   id="name"
                   name="name"
+                  autoComplete="off"
                   className="form-control"
                   value={formData.name}
                   onChange={handleChange}
@@ -88,6 +89,7 @@ const Profile = () => {
                   type="text"
                   id="mobileNo"
                   name="mobileNo"
+                  autoComplete="off"
                   className="form-control"
                   value={formData.mobileNo}
                   onChange={handleChange}

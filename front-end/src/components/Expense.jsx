@@ -6,7 +6,7 @@ const Expense = ({ expenseUpdate, setExpenseUpdate }) => {
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
   const [currentBalance, setCurrentBalance] = useState(0);
-  const [totalExpenses, setTotalExpenses] = useState(0);
+  // const [totalExpenses, setTotalExpenses] = useState(0);
   const [date, setDate] = useState("");
 
   useEffect(() => {

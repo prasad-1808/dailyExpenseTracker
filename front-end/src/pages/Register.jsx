@@ -52,6 +52,7 @@ const Register = () => {
                     type="text"
                     id="userid"
                     className="form-control"
+                    autoComplete="off"
                     placeholder="Enter your UserId"
                     value={userid}
                     onChange={(e) => setUserId(e.target.value)}
@@ -66,6 +67,7 @@ const Register = () => {
                     type="text"
                     id="name"
                     className="form-control"
+                    autoComplete="off"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your Name"
@@ -80,6 +82,7 @@ const Register = () => {
                     type="text"
                     id="mobileNo"
                     className="form-control"
+                    autoComplete="off"
                     placeholder="Enter your Mobile Number"
                     value={mobileNo}
                     onChange={(e) => setMobileNo(e.target.value)}

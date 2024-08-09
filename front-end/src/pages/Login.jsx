@@ -52,6 +52,7 @@ const Login = ({ isLoggedIn, setIsLoggedIn }) => {
                     id="userid"
                     className="form-control"
                     placeholder="Enter your UserId"
+                    autoComplete="off"
                     value={userid}
                     onChange={(e) => setUserId(e.target.value)}
                     required
